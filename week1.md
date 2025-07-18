@@ -1,9 +1,11 @@
 
 # 퀘스트 목록
 
-1) [척추요청 프로젝트🏃‍♂️](#%EC%B2%99%EC%B6%94%EC%9A%94%EC%B2%AD-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)
-2) [Ai 커밋 메시지 추천 프로젝트 🤖](#ai-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%B6%94%EC%B2%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-)
-3) [좋은 피드백 남기기](#%08%EC%A2%8B%EC%9D%80-%ED%94%BC%EB%93%9C%EB%B0%B1-%EB%82%A8%EA%B8%B0%EA%B8%B0)
+[척추요청 프로젝트](#%EC%B2%99%EC%B6%94%EC%9A%94%EC%B2%AD-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)
+
+[Ai 커밋 메시지 추천 프로젝트](#ai-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%B6%94%EC%B2%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-)
+
+[좋은 피드백 남기기](#%EC%A2%8B%EC%9D%80-%ED%94%BC%EB%93%9C%EB%B0%B1-%EB%82%A8%EA%B8%B0%EA%B8%B0)
 
 # 토론 기록
 
