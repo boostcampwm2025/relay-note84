@@ -98,6 +98,14 @@ AI를 통해 개선 포인트를 계속 찾아보는 방향으로 이어가고 �
 - 받은 조언 중 하나를 실천하거나 기록한다.
 - **주 4회 이상 실천하면 퀘스트 달성!**
 
+<details>
+  <summary>J304 김민우</summary> 
+  <img width="965" height="637" alt="image" src="https://github.com/user-attachments/assets/c9f747ca-a6a6-4b2e-b909-28fc14f8fffa" />
+  <img width="974" height="635" alt="image" src="https://github.com/user-attachments/assets/4c9aa319-71bc-4a20-8803-195ad5178208" />
+  <img width="958" height="698" alt="image" src="https://github.com/user-attachments/assets/6a7de944-763e-49c4-bba0-ee5fd3e9857d" />
+  <img width="985" height="527" alt="image" src="https://github.com/user-attachments/assets/18bcc259-964b-4b81-b736-878ea2104562" />
+
+</details>
 ---
 
 ## 퀘스트 4: 번아웃 예방, AI에게 동기부여 멘트 받기
