@@ -148,9 +148,123 @@ AI를 통해 개선 포인트를 계속 찾아보는 방향으로 이어가고 �
 - **주 4회 이상 실천하면 퀘스트 달성!**
 
 ---
-
+# 퀘스트 수행 기록
+### 1. J270 최민식
 <details>
   <summary>J270 최민식</summary> 
   <img width="1013" height="475" alt="릴프1" src="https://github.com/user-attachments/assets/5d36efaf-7bbe-4a88-b10d-24f8caf9ed21" />
 
 </details>
+
+### 2. S034 제민우
+#### 2.1 선택 이유
+평소 변수명 짓기에 은근 많은 시간을 썼습니다. `5분, 10분만 고민해야지`가 10번 반복되면 50분에서 100분이라는 것을 깨달았습니다🥲.  
+네이밍에 대한 고민은 좋은 고민이지만, 챌린지처럼 급할 때는 빨리 넘어갈 수 있어야 합니다.  
+'만약 나만의 네이밍 패턴이 생긴다면 품질과 속도를 더 챙길 수 있겠다!' 는 생각에 해당 미션을 선택하게 되었습니다.
+
+
+#### 2.2 수행 과정: Service? Manager? Provider? 무슨 차이일까?
+Day18 미션을 진행하며 **채팅 관리 객체**와 **토큰 생성 객체**를 `Service`라는 이름으로 지었습니다.  
+
+다음날 개선을 진행하며`'이 객체가 진짜 Service인가?'`, `'내가 봤던 Service들은 네트워크에서 데이터를 받아왔던 것 같은데?'`, `'Service 객체가 정확히 뭐지....????'` 라는 생각이 들었습니다.  
+
+이번 기회에 자주 사용되는 접미사?들을 정리해보고자 지피티와 제미나이 선생님에게 물어보고 나름의 결론을 내렸습니다.
+
+- 토큰 생성 객체: `TokenGenerator`
+  - 저의 설계 상 토큰 생성 객체는 내부 상태 없이 단순히 토큰을 만들어냅니다.
+  - 따라서 비즈니스 로직을 수행하지 않아 Service는 부적절하다고 생각했고, Generator가 더 적합하다고 판단했습니다.
+- 채팅 관리 객체: `ChatService`
+  - 채팅 관리 객체는 **현재 활성화 된 채팅** 이라는 상태를 가집니다.
+  - 이 상태는 `private`으로 선언되어 있어, 서버는 **채팅 관련 서비스을 제공** 받고 있습니다.
+  - 현재 구조에서는 서버가 주인공?이므로 서버 관점에서 결정을 내렸습니다.
+
+그런데 정답이 없고 너무 어렵습니다. 정확히 나누기엔 기준이 모호한 것 같기도, 제 경험이 부족한 것 같기도 합니다😂.  
+찾아볼 당시 새벽이라 잠도 오고... 시간도 부족했어서 레퍼런스 체크는 하지 못해 간단하게만 정리해두었습니다.  
+(할루시네이션 주의!!)
+
+
+
+<details>
+<summary><h4>GPT의 생각</h4> (🔻<b>자세히보기</b>)</summary>
+
+| 이름 | 언제 사용하는가? | 주요 특징 | 예시 |
+| --- | --- | --- | --- |
+| **Service**     | 💡 여러 객체를 조합하여 **비즈니스 로직**을 구현할 때 | - Usecase보다 세부 로직 단위 <br> - 외부 API, DB, Manager 등을 조합 | `PaymentService`, `AuthService`, `ChatService` |
+| **Usecase**     | 💡 유저의 "행위" 단위로, **앱의 흐름**을 구현할 때 | - 유저 중심: "로그인하기", "주문하기" <br> - Service, Repository 등을 orchestration | `LoginUsecase`, `BuyProductUsecase` |
+| **Manager**     | 💡 특정 **상태나 자원**을 직접 보관, 제어할 때    | - 내부에 상태를 가짐 (ex. 캐시, 세션, 리스트 등) <br> - 수명과 생명주기를 관리 | `SessionManager`, `CacheManager`, `AudioManager` |
+| **Repository**  | 💡 DB나 파일 등 **영속성 저장소에 접근**할 때    | - DB의 CRUD 담당 <br> - 도메인과 저장소 사이의 추상화 | `UserRepository`, `ProductRepository` |
+| **Provider**    | 💡 무언가를 **제공하는 책임**만 있을 때 (읽기 중심) | - 설정값, 리소스, 외부 데이터 제공 <br> - 상태나 복잡한 로직 없음 | `TokenProvider`, `ConfigProvider`, `LocaleProvider`    |
+| **Generator**   | 💡 무언가를 **생성하는 책임**이 있을 때 (출력 중심) | - 입력 → 출력 생성 (랜덤값, 토큰, ID 등) <br> - 내부 상태 없음 (stateless) | `UUIDGenerator`, `TokenGenerator`, `PasswordGenerator` |
+| **Handler**     | 💡 **이벤트, 요청, 메시지 등 처리** 시        | - 콜백이나 입력에 대한 분기 처리 <br> - `onXXX`, `handleXXX` 구조 많음 | `LoginRequestHandler`, `MessageHandler` |
+| **Factory**     | 💡 객체 생성을 **조건에 따라 분기**할 때        | - 여러 구현체 중 하나 선택 <br> - 생성 로직을 추상화 | `ViewFactory`, `RepositoryFactory` |
+| **Builder**     | 💡 복잡한 객체를 **단계적으로 구성**할 때        | - 불변 객체, 체이닝 등 <br> - `build()` 메서드로 완성 | `RequestBuilder`, `UIBuilder` |
+| **Coordinator** | 💡 **화면 전환**이나 **흐름 제어**를 맡을 때    | - UIKit/SwiftUI의 화면 이동 제어 <br> - ViewController decoupling | `AppCoordinator`, `LoginCoordinator` |
+| **Controller**  | 💡 **UI or 외부 요청**을 받아 처리할 때      | - View 로직 or API 입구 <br> - MVC의 Controller | `UserController`, `ShoppingController` |
+| **Adapter**     | 💡 **인터페이스 변환**이 필요할 때            | - 외부 시스템 연결 <br> - 호환성 확보 목적 | `PaymentAdapter`, `LegacySystemAdapter` |
+
+- Manager: 상태(state)를 보유하고 그것을 관리하는 컨트롤러 느낌.
+- Service: 도메인 기능 하나의 작업 단위를 캡슐화한 객체. (주로 상태 없음)
+</details>
+
+<details>
+<summary><h4>Gemini의 생각</h4> (🔻<b>자세히보기</b>)</summary>
+
+사용자님의 지적대로, ChatManager는 activeSession이라는 상태를 보유하고 있으니 Manager에 가까워 보입니다. 그럼에도 ChatService라고 생각한 이유는 **'외부에서 바라보는 역할(Public Interface)'**과 '캡슐화' 에 더 중점을 두었기 때문입니다.
+
+```swift
+// 제가 구현한 코드입니다!
+// ChatSession은 그룹 관련 정보(채팅 시작한 캠퍼, 그룹 아이디, 채팅의 최대 대화 수, 현재 채팅 수)를 정의하는 데이터 모델(구조체)입니다.
+
+/// ChatService 프로토콜의 기본 구현체입니다.
+final class DefaultChatService: ChatService {
+    /// 현재 활성화된 채팅 세션을 그룹 ID를 키로 하여 관리합니다.
+    private var activeSession: [Int: ChatSession] = [:]
+
+    init() { }
+
+    /// 새로운 채팅 세션을 시작합니다.
+    func startSession(by camper: Camper, maxCount: Int) -> Result<Void, ChatError> { ... }
+
+    /// 메시지를 보내고, 세션의 현재 메시지 카운트를 1 증가시킵니다.
+    func sendMessage(from camper: Camper, message: String) -> Result<Void, ChatError> { ... }
+
+    /// 현재 활성화된 채팅 세션을 종료(제거)합니다.
+    func finishSession(by camper: Camper) -> Result<Void, ChatError> { ... }
+}
+```
+
+1. 소비자 관점에서의 역할 (Consumer's Perspective)
+
+ShoppingServer 입장에서 생각해 봅시다. 서버는 채팅 기능이 필요할 때, ChatManager의 내부 상태(activeSession)가 어떻게 돌아가는지 전혀 관심이 없습니다. 서버는 그저 "채팅 세션을 시작해 줘", "메시지를 보내줘" 와 같은 '서비스'를 요청하고 소비할 뿐입니다.
+
+ShoppingServer는 ChatService에게 '채팅 서비스'를 요청합니다.
+
+ProductService에게 '상품 서비스'를 요청합니다.
+
+AuthService에게 '인증 서비스'를 요청합니다.
+
+이처럼 ChatService라는 이름은 이 객체의 '목적'과 '역할'을 소비자 입장에서 가장 명확하게 설명해 줍니다.
+
+2. 완전한 상태 캡슐화 (Strong Encapsulation)
+
+ChatManager가 상태를 가지고 있는 것은 맞지만, 그 상태(activeSession)는 private으로 선언되어 외부에서는 절대 직접 접근할 수 없습니다. 모든 상태 변경은 startSession(), sendMessage() 같은 공개된 메서드(서비스)를 통해서만 가능합니다.
+
+Manager라는 이름은 때로 상태를 외부에서도 조회하거나 일부 제어할 수 있다는 뉘앙스를 주기도 합니다.
+
+하지만 이 객체는 자신의 상태를 완벽한 블랙박스처럼 숨기고 오직 '서비스'만을 제공하므로, Service라는 이름이 그 '행위'를 더 잘 표현합니다.
+
+비유하자면, 우리는 은행 창구 직원에게 "송금해주세요"라는 서비스를 요청합니다. 그 직원이 내부적으로 어떤 장부(상태)를 어떻게 관리하는지는 알 필요가 없죠. 이 때 우리는 '은행원'을 '장부 관리자(Manager)'가 아닌 '금융 서비스 제공자(Service Provider)'로 인식하는 것과 같습니다.
+
+#### 결론: Service vs Manager
+구분	ChatService	ChatManager
+관점	외부 소비자(Server)의 관점을 중시. "어떤 서비스를 제공하는가?"	내부 구현의 관점을 중시. "어떤 상태를 관리하는가?"
+핵심	**행위(Behavior)**와 목적(Purpose)	**상태(State)**와 제어(Control)
+장점	다른 서비스(ProductService 등)와 이름의 일관성을 맞추고, 역할을 명확히 한다.	상태를 가진다는 사실을 이름에 명시적으로 드러낸다.
+두 이름 모두 틀리지 않았습니다. 이것이 소프트웨어 설계의 묘미입니다.
+
+다만, 우리가 지향하는 프로토콜 기반의 느슨한 결합 구조에서는 객체의 내부 구현보다는 외부에서 바라보는 역할과 책임을 더 중요하게 생각하므로, ChatService가 이 설계 철학에 조금 더 잘 부합한다고 판단했습니다.
+
+가장 중요한 것은 일관성입니다. 팀 내에서 "상태가 있으면 Manager, 없으면 Service"라고 규칙을 정했다면 ChatManager가 맞는 이름이 됩니다. 지금처럼 역할 중심으로 이름을 붙인다면 ChatService가 더 좋은 선택이 될 수 있습니다.
+
+</details>
+
